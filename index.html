@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -184,7 +183,7 @@
         .hamburger { display: none; font-size: 1.5rem; cursor: pointer; color: var(--cream); z-index: 1001; }
 
         /* --- SECCIONES COMUNES --- */
-        .process-section, .team-section, .cases-section { 
+        .process-section, .team-section { 
             padding: 120px 0; 
             position: relative;
             background: transparent; 
@@ -288,29 +287,6 @@
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
         }
-
-        /* --- CASES SECTION --- */
-        .cases-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        .case-card { 
-            height: 450px; 
-            border-radius: 20px; 
-            overflow: hidden; 
-            position: relative; 
-            display: flex; 
-            align-items: flex-end; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            cursor: pointer; 
-            width: 100%;
-        }
-        
-        .case-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.4s; }
-        .case-card:hover .case-bg { transform: scale(1.1); opacity: 0.4; }
-        .case-content { position: relative; z-index: 10; padding: 30px; width: 100%; background: linear-gradient(0deg, #000 0%, transparent 100%); }
 
         /* --- TEAM SECTION --- */
         .team-grid {
@@ -512,7 +488,6 @@
             .hero-title { font-size: 3.5rem; }
             .process-grid { grid-template-columns: repeat(2, 1fr); }
             .contact-layout { grid-template-columns: 1fr; gap: 40px; }
-            .cases-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
@@ -531,9 +506,9 @@
             .hero-title { font-size: 2.5rem; line-height: 1.2; word-wrap: break-word; }
             .hero-subtitle { font-size: 1.1rem; }
             
-            /* --- SWIPEABLE SECTIONS (Process, Cases, Team) --- */
+            /* --- SWIPEABLE SECTIONS (Process, Team) --- */
             /* Scroll horizontal con Snap */
-            .process-grid, .cases-grid, .team-grid {
+            .process-grid, .team-grid {
                 display: flex;
                 overflow-x: auto;
                 scroll-snap-type: x mandatory;
@@ -545,7 +520,7 @@
             }
             
             /* Tarjetas con efecto "Peek" (85% width) */
-            .process-card, .case-card, .team-card {
+            .process-card, .team-card {
                 min-width: 85%; 
                 scroll-snap-align: center;
                 margin-right: 0; 
@@ -572,7 +547,6 @@
             <nav class="desktop-menu">
                 <a href="#home">Home</a>
                 <a href="#process">Qué hacemos</a>
-                <a href="#cases">Nuestro Trabajo</a>
                 <a href="#team">Equipo</a>
                 <a href="#contact" style="color: var(--gold);">Contacto</a>
                 
@@ -591,7 +565,6 @@
         <div style="position: absolute; top: 30px; right: 30px; font-size: 2rem; cursor: pointer; color: var(--gold);" id="close-menu"><i class="fa-solid fa-xmark"></i></div>
         <a href="#home" class="mobile-link">Home</a>
         <a href="#process" class="mobile-link">Qué hacemos</a>
-        <a href="#cases" class="mobile-link">Nuestro Trabajo</a>
         <a href="#team" class="mobile-link">Equipo</a>
         <a href="#contact" class="mobile-link">Contacto</a>
         
@@ -645,42 +618,7 @@
             </div>
 
             <div style="margin-top: 60px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                <a href="#cases" class="btn-cta">Ver Casos de Éxito</a>
                 <a href="#contact" class="btn-cta btn-secondary">Contactanos</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="cases" class="cases-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Nuestro Trabajo</span>
-                <h2>Casos de Éxito</h2>
-                <div class="swipe-indicator"><i class="fa-solid fa-arrow-right"></i> Deslizá</div>
-            </div>
-            
-            <div class="cases-grid">
-                <div class="case-card">
-                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1000&auto=format&fit=crop" class="case-bg" alt="Inmobiliaria">
-                    <div class="case-content">
-                        <div style="color:var(--gold); font-size:12px; font-weight:700;">VENTAS INMOBILIARIAS</div>
-                        <h3>Team Ruscitti | Remax Futuro</h3>
-                    </div>
-                </div>
-                <div class="case-card">
-                    <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?q=80&w=1000&auto=format&fit=crop" class="case-bg" alt="Agua">
-                    <div class="case-content">
-                        <div style="color:var(--gold); font-size:12px; font-weight:700;">VENTA DE SERVICIO</div>
-                        <h3>Yakú Agua Saludable</h3>
-                    </div>
-                </div>
-                <div class="case-card">
-                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1000&auto=format&fit=crop" class="case-bg" alt="Construccion">
-                    <div class="case-content">
-                        <div style="color:var(--gold); font-size:12px; font-weight:700;">SERVICIOS EEUU</div>
-                        <h3>Contratistas Gómez</h3>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -900,7 +838,7 @@
             if (lang === 'en') {
                 window.location.href = 'en.html';
             } else {
-                // Ya estamos en ES, no hace falta redirigir
+                // Ya estamos en ES
             }
         }
 
@@ -929,7 +867,7 @@
         
         // Animaciones simples para desktop
         if (window.innerWidth > 768) {
-            gsap.utils.toArray('.process-card, .case-card, .team-card').forEach((card, i) => {
+            gsap.utils.toArray('.process-card, .team-card').forEach((card, i) => {
                 gsap.from(card, { 
                     scrollTrigger: { trigger: card, start: "top 90%" }, 
                     y: 30, opacity: 0, duration: 0.6, ease: "power2.out" 
@@ -949,34 +887,6 @@
 
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
-
-            // ⚠️ IMPORTANTE: REEMPLAZA ESTA URL CON TU WEBHOOK REAL
-            const WEBHOOK_URL = 'TU_URL_DEL_WEBHOOK_AQUI'; 
-
-            // FETCH REAL (Descomentar y poner tu URL arriba)
-            /*
-            fetch(WEBHOOK_URL, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                if(response.ok) {
-                    alert("¡Gracias! Tu mensaje fue enviado correctamente.");
-                    form.reset();
-                } else {
-                    alert("Hubo un error al enviar. Por favor intentá de nuevo.");
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("Error de conexión.");
-            })
-            .finally(() => {
-                submitBtn.innerText = "ENVIAR MENSAJE";
-                submitBtn.style.opacity = "1";
-            });
-            */
 
             // SIMULACION
             setTimeout(() => {
@@ -1019,7 +929,7 @@
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(223, 214, 181, 0.4)'; // Gold suave
+                ctx.fillStyle = 'rgba(223, 214, 181, 0.4)'; 
                 ctx.fill();
             }
         }
@@ -1042,7 +952,7 @@
                     const distance = Math.sqrt(dx * dx + dy * dy);
                     if (distance < connectionDistance) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(188, 101, 222, ${1 - distance / connectionDistance})`; // Magenta lines
+                        ctx.strokeStyle = `rgba(188, 101, 222, ${1 - distance / connectionDistance})`; 
                         ctx.lineWidth = 1;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
