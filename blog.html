@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Blog | bi.lab Insights</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* --- CONFIGURACIÓN GENERAL --- */
+        :root {
+            --bg-dark: #0a0a0c;
+            --bg-card: #161517;
+            --gold: #DFD6B5;
+            --violet: #5241B0;
+            --magenta: #BC65DE;
+            --cream: #FDFAF0;
+            --text-grey: #a0a0a0;
+            --font-title: 'Quicksand', sans-serif;
+            --font-body: 'Archivo', sans-serif;
+            --container-width: 1240px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--cream);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            width: 100%;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+
+        /* FONDO DE PARTÍCULAS */
+        #neural-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.35; pointer-events: none;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
+
+        /* HEADER & NAV */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 20px 0; background: rgba(10, 10, 12, 0.95);
+            backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 40px; }
+
+        .desktop-menu { display: flex; gap: 40px; align-items: center; }
+        .desktop-menu a {
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
+            position: relative; font-weight: 500;
+        }
+        .desktop-menu a:hover { color: var(--gold); }
+
+        .hamburger { display: none; font-size: 1.5rem; cursor: pointer; color: var(--cream); }
+
+        /* --- ESTILOS ESPECÍFICOS DEL BLOG PAGE --- */
+        
+        .blog-hero {
+            padding: 160px 0 60px;
+            text-align: center;
+        }
+
+        .blog-title-main {
+            font-family: var(--font-title);
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        
+        .blog-subtitle {
+            color: var(--text-grey);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* --- BUSCADOR --- */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 50px;
+            position: relative;
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(223, 214, 181, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .search-icon { color: var(--gold); font-size: 1.1rem; }
+
+        #searchInput {
+            background: transparent;
+            border: none;
+            color: #fff;
+            width: 100%;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        #searchInput::placeholder { color: rgba(255, 255, 255, 0.4); }
+
+        /* Filtros */
+        .blog-filters {
+            display: flex; justify-content: center; gap: 15px; margin-bottom: 60px; flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-grey);
+            padding: 10px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: var(--font-title);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--gold); color: var(--gold);
+            background: rgba(223, 214, 181, 0.05);
+            box-shadow: 0 0 15px rgba(223, 214, 181, 0.1);
+        }
+
+        /* Grid Layout */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 40px;
+            padding-bottom: 100px;
+        }
+        
+        /* Mensaje No Resultados */
+        #noResults {
+            text-align: center;
+            grid-column: 1 / -1;
+            display: none;
+            padding: 60px;
+            color: var(--text-grey);
+            font-size: 1.1rem;
+            border: 1px dashed rgba(255,255,255,0.1);
+            border-radius: 12px;
+        }
+
+        /* Cards */
+        .blog-card {
+            background: rgba(22, 21, 23, 0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            transition: 0.4s; backdrop-filter: blur(4px);
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--violet);
+            background: rgba(255,255,255,0.03);
+        }
+
+        .blog-img-box {
+            height: 220px; width: 100%; overflow: hidden; position: relative;
+        }
+
+        .blog-img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(100%); transition: 0.5s ease;
+        }
+
+        .blog-card:hover .blog-img { filter: grayscale(0%); transform: scale(1.05); }
+
+        .category-badge {
+            position: absolute; top: 15px; left: 15px;
+            background: rgba(10, 10, 12, 0.8); border: 1px solid var(--violet);
+            color: #fff; font-size: 0.65rem; font-weight: 700;
+            padding: 6px 12px; border-radius: 50px;
+            text-transform: uppercase; letter-spacing: 1px; z-index: 2;
+        }
+
+        .blog-content { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; }
+
+        .blog-meta-date { font-size: 0.75rem; color: var(--gold); margin-bottom: 10px; font-weight: 500; text-transform: uppercase; }
+
+        .blog-title {
+            font-family: var(--font-title); font-size: 1.4rem; color: #fff;
+            margin-bottom: 15px; line-height: 1.3; font-weight: 700;
+        }
+
+        .blog-excerpt {
+            font-size: 1rem; color: var(--text-grey); margin-bottom: 25px; line-height: 1.6;
+        }
+
+        .blog-footer {
+            margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 20px; display: flex; align-items: center; gap: 12px;
+        }
+
+        .author-avatar { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
+        
+        .author-info-text { display: flex; flex-direction: column; line-height: 1.2; }
+        .author-name-blog { font-size: 0.85rem; color: #fff; font-weight: 600; }
+        .read-time { font-size: 0.75rem; color: var(--text-grey); }
+
+        footer {
+            text-align: center; padding: 50px 0; border-top: 1px solid rgba(255,255,255,0.05); color: #666;
+            margin-top: 50px;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--bg-dark); z-index: 2000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            gap: 30px; transform: translateY(-100%); transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .mobile-menu.active { transform: translateY(0); }
+        .mobile-menu a { font-size: 2rem; font-family: var(--font-title); font-weight: 700; color: #fff; }
+
+        @media (max-width: 768px) {
+            .blog-hero { padding-top: 120px; }
+            .blog-title-main { font-size: 2.5rem; }
+            .desktop-menu { display: none; }
+            .hamburger { display: block; }
+            .blog-grid { grid-template-columns: 1fr; gap: 30px; }
+            .search-container { width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="neural-canvas"></canvas>
+
+    <header id="navbar">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/648WK3qUUy8DeS9NGDVH/media/2ab0c314-516c-4f26-8ad8-e35db41baf1b.png" alt="bi.lab logo">
+            </a>
+            <nav class="desktop-menu">
+                <a href="index.html">Home</a>
+                <a href="index.html#process">Qué hacemos</a>
+                <a href="index.html#team">Equipo</a>
+                <a href="#" style="color: var(--gold);">Insights</a>
+                <a href="index.html#contact">Contacto</a>
+            </nav>
+            <div class="hamburger" id="hamburger-btn">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <div style="position: absolute; top: 30px; right: 30px; font-size: 2rem; cursor: pointer; color: var(--gold);" id="close-menu"><i class="fa-solid fa-xmark"></i></div>
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="index.html#process" class="mobile-link">Qué hacemos</a>
+        <a href="index.html#team" class="mobile-link">Equipo</a>
+        <a href="#" class="mobile-link" style="color: var(--gold);">Insights</a>
+        <a href="index.html#contact" class="mobile-link">Contacto</a>
+    </div>
+
+    <div class="container blog-hero">
+        <span class="section-tag" style="display:inline-block; margin-bottom:15px;">bi.lab Insights</span>
+        <h1 class="blog-title-main">Laboratorio de <span class="highlight-text" style="background: linear-gradient(90deg, var(--cream) 0%, var(--gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Ideas</span></h1>
+        <p class="blog-subtitle">Estrategias de Data, Growth y Tecnología explicadas por quienes las ejecutan.</p>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Buscar por tema, autor o estrategia..." onkeyup="searchBlog()">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <div class="blog-filters">
+            <button class="filter-btn active" onclick="filterPosts('all', this)">Todos</button>
+            <button class="filter-btn" onclick="filterPosts('bi', this)">Data Intelligence</button>
+            <button class="filter-btn" onclick="filterPosts('growth', this)">Growth & Ads</button>
+            <button class="filter-btn" onclick="filterPosts('ai', this)">IA & Tech</button>
+        </div>
+
+        <div class="blog-grid" id="blogGrid">
+            
+            <div id="noResults">
+                <i class="fa-solid fa-magnifying-glass" style="font-size: 2rem; margin-bottom: 15px; display: block; opacity: 0.5;"></i>
+                No encontramos notas con esos criterios.
+            </div>
+
+            <article class="blog-card" data-category="growth" onclick="window.location.href='blog-post-growth-2026.html'">
+                <div class="blog-img-box">
+                    <span class="category-badge">Strategy</span>
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop" class="blog-img" alt="Inmobiliarias 2026">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta-date">Feb 2026</div>
+                    <h3 class="blog-title">Qué debe hacer una inmobiliaria que NO es de Franquicia para crecer este 2026</h3>
+                    <p class="blog-excerpt">El dilema de la escala: Datos, automatización y nuevos modelos de negocio para competir contra los gigantes.</p>
+                    <div class="blog-footer">
+                        <img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/648WK3qUUy8DeS9NGDVH/media/2ab0c314-516c-4f26-8ad8-e35db41baf1b.png" class="author-avatar" style="background: #000; padding: 4px; object-fit: contain;">
+                        <div class="author-info-text">
+                            <span class="author-name-blog">bi.lab Agency</span>
+                            <span class="read-time">12 min lectura</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="blog-card" data-category="growth">
+                <div class="blog-img-box">
+                    <span class="category-badge">Ads Growth</span>
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800" class="blog-img" alt="Growth">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta-date">05 Feb, 2026</div>
+                    <h3 class="blog-title">Escalando Real Estate con Meta Ads: Lecciones de 2025.</h3>
+                    <p class="blog-excerpt">¿Por qué tus leads no convierten? El cambio de algoritmo que obliga a segmentar por intención y no por interés.</p>
+                    <div class="blog-footer">
+                        <img src="https://i.ibb.co/0pCPs90v/DSC-1606-1.jpg" class="author-avatar">
+                        <div class="author-info-text">
+                            <span class="author-name-blog">Manuel Álvarez</span>
+                            <span class="read-time">7 min lectura</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <p style="margin-bottom: 20px;">¿Querés escalar tu negocio con estas estrategias?</p>
+            <a href="index.html#contact" class="filter-btn" style="display: inline-block; text-decoration: none; border-color: var(--gold); color: var(--gold);">Hablemos</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 bi.lab. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        // --- 1. MENÚ MOVIL ---
+        const hamburger = document.getElementById('hamburger-btn');
+        const closeMenu = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        
+        function toggleMenu() { mobileMenu.classList.toggle('active'); }
+        
+        if(hamburger) hamburger.addEventListener('click', toggleMenu);
+        if(closeMenu) closeMenu.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // --- 2. FILTROS ---
+        function filterPosts(category, btn) {
+            document.getElementById('searchInput').value = "";
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+            
+            const cards = document.querySelectorAll('.blog-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                // Filtramos por categoría
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                    gsap.fromTo(card, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 });
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Manejar "No Resultados"
+            const noRes = document.getElementById('noResults');
+            noRes.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // --- 3. BUSCADOR EN TIEMPO REAL ---
+        function searchBlog() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const cards = document.querySelectorAll('.blog-card');
+            const allBtns = document.querySelectorAll('.filter-btn');
+            
+            // Reset visual de filtros al buscar
+            if(filter.length > 0) {
+                allBtns.forEach(b => b.classList.remove('active'));
+            } else {
+                allBtns[0].classList.add('active');
+            }
+
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                // Buscamos en Titulo, Extracto y Autor
+                const title = card.querySelector('.blog-title').innerText.toLowerCase();
+                const excerpt = card.querySelector('.blog-excerpt').innerText.toLowerCase();
+                const author = card.querySelector('.author-name-blog').innerText.toLowerCase();
+
+                if (title.includes(filter) || excerpt.includes(filter) || author.includes(filter)) {
+                    card.style.display = 'flex';
+                    if(card.style.opacity === '0') {
+                        gsap.to(card, { opacity: 1, duration: 0.3 });
+                    }
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const noRes = document.getElementById('noResults');
+            noRes.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // --- 4. ANIMACIÓN DE FONDO ---
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        const particleCount = window.innerWidth < 768 ? 35 : 70; 
+        const connectionDistance = window.innerWidth < 768 ? 100 : 150;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.size = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(223, 214, 181, 0.4)'; 
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(188, 101, 222, ${1 - distance / connectionDistance})`; 
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        initParticles();
+        animate();
+    </script>
+</body>
+</html>
