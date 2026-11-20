@@ -1,0 +1,22 @@
+# bi.lab
+
+> bi.lab es una agencia y software factory de Argentina especializada en el sector inmobiliario (real estate). Combina publicidad en Meta y Google, desarrollo de software, el CRM bitasks e inteligencia de datos para que las inmobiliarias y desarrolladoras conviertan consultas en ventas.
+
+## Servicios
+
+- [Marketing y publicidad para inmobiliarias](https://wearebilab.com/marketing-inmobiliario/): estrategia, creatividad y campañas en Meta y Google conectadas con la calidad de las consultas.
+- [Software factory para el sector inmobiliario](https://wearebilab.com/software-inmobiliario/): sitios web, integraciones, automatización y desarrollo a medida.
+- [Inteligencia de datos para inmobiliarias](https://wearebilab.com/inteligencia-de-datos-inmobiliarios/): arquitectura de datos, trazabilidad de consultas e indicadores comerciales.
+- [bitasks](https://wearebilab.com/bitasks/): CRM para inmobiliarias con pipeline de consultas, propiedades, seguimiento comercial y asistentes con IA por WhatsApp.
+
+## Blog
+
+- [Qué delegar en IA y hasta dónde](https://wearebilab.com/blog/que-delegar-en-ia-y-hasta-donde/)
+- [Dirigir una empresa de publicidad en la era de la Inteligencia Artificial](https://wearebilab.com/blog/dirigir-empresa-publicidad-era-inteligencia-artificial/)
+
+## Contacto
+
+- Sitio: https://wearebilab.com/
+- Email: info@wearebilab.com
+- WhatsApp: https://wa.me/5493425248713
+- Instagram: https://www.instagram.com/we.are.bilab/
