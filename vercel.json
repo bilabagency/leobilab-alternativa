@@ -1,0 +1,31 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/blog.mjs": {"maxDuration": 30, "includeFiles":"blog/**"},
+    "api/institutional-contact.mjs": {"maxDuration": 30},
+    "api/institutional-booking.mjs": {"maxDuration": 60}
+  },
+  "redirects": [
+    {"source":"/blog","destination":"/blog/","permanent":true},
+    {"source":"/index.html","destination":"/","permanent":true},
+    {"source":"/marketing-inmobiliario","destination":"/marketing-inmobiliario/","permanent":true},
+    {"source":"/software-inmobiliario","destination":"/software-inmobiliario/","permanent":true},
+    {"source":"/inteligencia-de-datos-inmobiliarios","destination":"/inteligencia-de-datos-inmobiliarios/","permanent":true},
+    {"source":"/bitasks","destination":"/bitasks/","permanent":true},
+    {"source":"/:section(marketing-inmobiliario|software-inmobiliario|inteligencia-de-datos-inmobiliarios|bitasks)/index.html","destination":"/:section/","permanent":true}
+  ],
+  "rewrites": [
+    {"source":"/blog/","destination":"/api/blog?route="},
+    {"source":"/blog/:route*/","destination":"/api/blog?route=:route*"},
+    {"source":"/blog/:route*","destination":"/api/blog?route=:route*"}
+  ],
+  "headers": [
+    {"source":"/(.*)","headers":[{"key":"X-Content-Type-Options","value":"nosniff"},{"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"}]},
+    {"source":"/assets/(.*)","headers":[{"key":"Cache-Control","value":"public, max-age=86400, stale-while-revalidate=604800"}]},
+    {"source":"/api/(.*)","headers":[{"key":"X-Robots-Tag","value":"noindex, nofollow"},{"key":"Cache-Control","value":"no-store"}]},
+    {"source":"/(.*).mjs","headers":[{"key":"X-Robots-Tag","value":"noindex, nofollow"}]},
+    {"source":"/package.json","headers":[{"key":"X-Robots-Tag","value":"noindex, nofollow"}]},
+    {"source":"/404.html","headers":[{"key":"X-Robots-Tag","value":"noindex"}]}
+    ,{"source":"/indexnow-verification.txt","headers":[{"key":"X-Robots-Tag","value":"noindex"}]}
+  ]
+}

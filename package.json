@@ -1,0 +1,1 @@
+{"name":"bilab-institucional","version":"1.0.0","private":true,"type":"module","dependencies":{"@vercel/blob":"^2.8.0","marked":"^18.0.14","sanitize-html":"2.17.7"}}

@@ -1,0 +1,12 @@
+# Public institutional content is accessible to search crawlers, including
+# Googlebot, Bingbot and OAI-SearchBot through this common rule.
+# No separate AI-training policy is introduced by this SEO update.
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_vercel/
+Disallow: /blog/admin/
+Disallow: /blog/preview/
+
+Sitemap: https://wearebilab.com/sitemap.xml
+Sitemap: https://wearebilab.com/blog/sitemap.xml
