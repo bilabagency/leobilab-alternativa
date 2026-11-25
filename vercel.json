@@ -12,7 +12,11 @@
     {"source":"/software-inmobiliario","destination":"/software-inmobiliario/","permanent":true},
     {"source":"/inteligencia-de-datos-inmobiliarios","destination":"/inteligencia-de-datos-inmobiliarios/","permanent":true},
     {"source":"/bitasks","destination":"/bitasks/","permanent":true},
-    {"source":"/:section(marketing-inmobiliario|software-inmobiliario|inteligencia-de-datos-inmobiliarios|bitasks)/index.html","destination":"/:section/","permanent":true}
+    {"source":"/:section(marketing-inmobiliario|software-inmobiliario|inteligencia-de-datos-inmobiliarios|bitasks)/index.html","destination":"/:section/","permanent":true},
+    {"source":"/en","destination":"/","permanent":true},
+    {"source":"/en/","destination":"/","permanent":true},
+    {"source":"/Terminos.html","destination":"/","permanent":true},
+    {"source":"/ventas-consultivas","destination":"/ventas-consultivas/","permanent":true}
   ],
   "rewrites": [
     {"source":"/blog/","destination":"/api/blog?route="},

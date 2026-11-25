@@ -214,10 +214,12 @@ institutionalForm.addEventListener('submit', async event => {
       payload.token = institutionalCaptcha;
       const saved = await institutionalJson('/api/institutional-contact', payload, 20000);
       institutionalSession = saved.session || '';
+      if (window.gtag) gtag('event', 'generate_lead', { method: 'formulario', page_path: location.pathname });
       if (wantsCall && institutionalSession) institutionalLockSaved(true);
     }
     if (wantsCall) {
       const result = await institutionalJson('/api/institutional-booking', { action: 'book', session: institutionalSession, start: institutionalStart }, 45000);
+      if (window.gtag) gtag('event', 'booking_confirmed', { page_path: location.pathname });
       institutionalStatus(institutionalFormStatus, `Tu consulta y llamada quedaron confirmadas para el ${institutionalDate(result.start, { weekday: 'long', day: 'numeric', month: 'long' })} a las ${institutionalTime(result.start)} h. Te llegará la invitación por mail.`, 'success');
     } else institutionalStatus(institutionalFormStatus, 'Recibimos tu consulta. El equipo de bi.lab se pondrá en contacto por mail.', 'success');
     institutionalComplete = true;

@@ -8,6 +8,7 @@
 - [Software factory para el sector inmobiliario](https://wearebilab.com/software-inmobiliario/): sitios web, integraciones, automatización y desarrollo a medida.
 - [Inteligencia de datos para inmobiliarias](https://wearebilab.com/inteligencia-de-datos-inmobiliarios/): arquitectura de datos, trazabilidad de consultas e indicadores comerciales.
 - [bitasks](https://wearebilab.com/bitasks/): CRM para inmobiliarias con pipeline de consultas, propiedades, seguimiento comercial y asistentes con IA por WhatsApp.
+- Marketing y sistemas para empresas de venta consultiva (fuera del real estate): https://wearebilab.com/ventas-consultivas/
 
 ## Blog
 
